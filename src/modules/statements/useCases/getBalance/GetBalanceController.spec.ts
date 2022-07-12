@@ -5,6 +5,7 @@ import { app } from "../../../../app";
 import createConnection from "../../../../database";
 
 let connection: Connection;
+
 describe("Get balance", () => {
     beforeAll(async () => {
         connection = await createConnection();
@@ -12,11 +13,19 @@ describe("Get balance", () => {
 
         const password = await hash("1234", 8);
 
-        await connection.query(`INSERT INTO users(id, name, email, password, created_at, updated_at) VALUES
-        ('11aa7822-7e41-4746-8edc-67e3da62bf05', 'User 01', 'user01@test.com', '${password}', 'now()', 'now()')`);
+        await connection.query(`
+        INSERT INTO users
+          (id, name, email, password, created_at, updated_at)
+        VALUES
+          ('11aa7822-7e41-4746-8edc-67e3da62bf05', 'User 01', 'user01@test.com', '${password}', 'now()', 'now()')
+      `);
 
-        await connection.query(`INSERT INTO users(id, name, email, password, created_at, updated_at) VALUES
-        ('22bb7822-7e41-4746-8edc-67e3da62bf05', 'User 02', 'user02@test.com', '${password}', 'now()', 'now()')`);
+        await connection.query(`
+        INSERT INTO users
+          (id, name, email, password, created_at, updated_at)
+        VALUES
+          ('22bb7822-7e41-4746-8edc-67e3da62bf05', 'User 02', 'user02@test.com', '${password}', 'now()', 'now()')
+      `);
     });
 
     afterAll(async () => {

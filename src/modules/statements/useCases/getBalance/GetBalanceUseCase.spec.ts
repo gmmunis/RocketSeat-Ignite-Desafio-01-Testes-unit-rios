@@ -29,13 +29,13 @@ describe("Get the balance", () => {
             name: "User 01",
             email: "user01@test.com",
             password: "1234"
-        });
+        })
 
         const user02 = await createUserUseCase.execute({
             name: "User 02",
             email: "user02@test.com",
             password: "1234"
-        });
+        })
 
         await createStatementUseCase.execute({
             user_id: user01.id as string,
@@ -53,9 +53,25 @@ describe("Get the balance", () => {
 
         await createStatementUseCase.execute({
             user_id: user02.id as string,
+            sender_id: user01.id as string,
+            type: OperationType.TRANSFER,
+            amount: 50,
+            description: "Transfer $50 to User 02",
+        });
+
+        await createStatementUseCase.execute({
+            user_id: user02.id as string,
             type: OperationType.DEPOSIT,
             amount: 100,
             description: "Depositing $100",
+        });
+
+        await createStatementUseCase.execute({
+            user_id: user01.id as string,
+            sender_id: user02.id as string,
+            type: OperationType.TRANSFER,
+            amount: 100,
+            description: "Transfer $100 to User 01",
         });
 
         const result = await getBalanceUseCase.execute({
